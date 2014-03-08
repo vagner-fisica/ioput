@@ -9,10 +9,6 @@ Written by Vagner Bessa (vagner.fisica@gmail.com)
 GENERAL USAGE NOTES
 ----------------------
 - This is a free software.
-
-- None of the source code files are guaranteed to be functional, i.e.,
-  work properly by either alone or compiled by anyother means,
-  but using the Makefile found in the root folder of the source code.
 ----------------------
 
 INSTALLATION
