@@ -1,0 +1,40 @@
+IOclass(C) software (C++ class) - Version 1.0 26/02/2014
+
+The entire source code, i.e., all files
+that compose the IOclass software, is released under
+the MIT License.
+
+Written by Vagner Bessa (vagner.fisica@gmail.com)
+
+GENERAL USAGE NOTES
+----------------------
+- This is a free software.
+
+- None of the source code files are guaranteed to be functional, i.e.,
+  work properly by either alone or compiled by anyother means,
+  but using the Makefile found in the root folder of the source code.
+----------------------
+
+INSTALLATION
+----------------------
+- 
+----------------------
+
+BASIC USER'S GUIED
+----------------------
+
+----------------------
+
+DEVELOPER'S INFORMATION:
+----------------------
+- Affiliation: Universidade Federal do Ceará (UFC) - Brazil
+			   Departamento de Física (Department of Physics)
+
+- Contact:	   GTMC - block 922
+			   Campus do PICI - Fortaleza - CE - Brazil
+			   vagner@fisica.ufc.br
+			   facebook.com/vagner.fisica
+			   github: vagner-fisica
+			   skype: vagner.fisica
+-----------------------
+
