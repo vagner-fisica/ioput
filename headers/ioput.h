@@ -38,8 +38,8 @@
 
 #include <stdlib.h>
 
-#define sst std::stringstream
-#define ss  std::string
+#define string_s std::stringstream
+#define string  std::string
 #define ifstream std::ifstream
 
 template <class type>
@@ -53,19 +53,19 @@ class IOput{
 //Public methods:
 		IOput();
 		IOput(const char*);
-		IOput(ss);
+		IOput(string);
 		
-		ss cwd();
-		ss full_cwd();
-		void change_cwd(ss);
+		string cwd();
+		string full_cwd();
+		void change_cwd(string);
 		
 //------------------
 //Private members:
 	private:
-		ss *cwd_;
+		string *cwd_;
 
 //------------------
 //Private methods:		
-		void mkdir(ss s);
+		void mkdir(string s);
 };
 #endif
