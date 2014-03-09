@@ -1,3 +1,5 @@
+#ifndef IOPUT_H
+#define IOPUT_H
 /*
 ***** BEGIN LICENSE BLOCK *****
 *	
@@ -14,7 +16,7 @@
 
 /*
 *******************************
-*	ioput C++ class's
+*	IOput C++ class's
 *	- Purpose: handle in/out data files in a very
 *			   especific way.
 *
@@ -28,23 +30,42 @@
 */
 
 #include <iostream>
+#include <cstdio>
+#include <sstream>
+#include <fstream>
+
 #include <string>
+
+#include <stdlib.h>
+
+#define sst std::stringstream
+#define ss  std::string
+#define ifstream std::ifstream
+
 template <class type>
-class ioput{
+class IOput{
 
-//------------------
-//Private members:
-	string dir;
-	
-
+	public:
 //------------------
 //Public members:
 
 //------------------
 //Public methods:
-	ioput();
-	ioput(const char*)
-	ioput(string);
+		IOput();
+		IOput(const char*);
+		IOput(ss);
+		
+		ss cwd();
+		ss full_cwd();
+		void change_cwd(ss);
+		
+//------------------
+//Private members:
+	private:
+		ss *cwd_;
 
-
+//------------------
+//Private methods:		
+		void mkdir(ss s);
 };
+#endif
