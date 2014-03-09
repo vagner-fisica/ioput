@@ -30,6 +30,7 @@
 */
 
 #include <iostream>
+#include <iomanip>
 #include <cstdio>
 #include <sstream>
 #include <fstream>
@@ -38,9 +39,12 @@
 
 #include <stdlib.h>
 
+using std::string;
+using std::ifstream;
+using std::ofstream;
 #define string_s std::stringstream
-#define string  std::string
-#define ifstream std::ifstream
+//#define string  std::string
+//#define ifstream std::ifstream
 
 template <class type>
 class IOput{
@@ -59,10 +63,50 @@ class IOput{
 		string full_cwd();
 		void change_cwd(string);
 		
+		void save_x(type,
+					string,
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+					
+		void save_x(type *,
+					int,
+					string,
+					string delimiter = "\n",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+					
+		void save_xy(type, type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+					
+		void save_xy(type *, type *,
+					int,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+							
+		void format_out_data(string, int);
+		
+		string lzeros(int, int);
+		
 //------------------
 //Private members:
 	private:
 		string *cwd_;
+		ofstream outf;
+		
+		string ext;
 
 //------------------
 //Private methods:		
