@@ -24,7 +24,7 @@
 *			work if, and only if compiled together with
 *			source file (ioclass.cpp) existed in the root
 *			directory of the IOclass source code, which 
-*			can be found at https://github.com/vagner-fisica/ioclass.git
+*			can be found at https://github.com/vagner-fisica/ioput.git
 *			Please check README to see more details.
 *******************************
 */
@@ -114,7 +114,26 @@ class IOput{
 					bool new_sub_folder = false);
 
 		void save_matrix(type **,
-					int,
+					int, int,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_matrix(type **,
+					int, int,
+					int, int,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_matrix(type *,
+					int, int,
 					string,
 					string delimiter = "\t",
 					int idx = -1,
