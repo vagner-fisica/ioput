@@ -1,12 +1,12 @@
 #include "ioput.h"
-//Default constructor
+/*Default constructor*/
 template <class T>
 IOput<T>::IOput(){
 //Default file extension
 ext = ".dat";
 }
-//Construtors that create a
-//working-directory (cwd_)
+/*Construtors that create a
+/working-directory (cwd_)*/
 template <class T>
 IOput<T>::IOput(const char* dir_name){
 //	Default file extension
@@ -21,13 +21,13 @@ IOput<T>::IOput(string dir_name){
 	cwd_ = new string(dir_name);
 	mkdir(*cwd_);
 }
-//Return current working directory (cwd_)
+/*Return current working directory (cwd_)*/
 template <class T>
 string IOput<T>::cwd(){
 	return *cwd_;
 }
-//Return the full path of th
-//current working directory (cwd_)
+/*Return the full path of th
+current working directory (cwd_)*/
 template <class T>
 string IOput<T>::full_cwd(){
 	system("echo $PWD > .temp_full_cwd_path");
@@ -39,16 +39,16 @@ string IOput<T>::full_cwd(){
 	system("rm .temp_full_cwd_path");
 	return aux;
 }
-//Create 'new_dir_name' directory
-//and change the current working directory (cwd_)
-//to 'new_dir_name'
+/*Create 'new_dir_name' directory
+and change the current working directory (cwd_)
+to 'new_dir_name'*/
 template <class T>
 void IOput<T>::change_cwd(string new_dir_name){
 	*cwd_ = new_dir_name;
 	mkdir(*cwd_);
 }
 
-//Store a simple data
+/*Store a simple data*/
 template <class T>
 void IOput<T>::save_x(T x,
 					  string fname,
@@ -67,8 +67,8 @@ void IOput<T>::save_x(T x,
 	}
 	outf.close();
 }
-//Store a simple array of data, which
-//has 'xrange' elements
+/*Store a simple array of data, which
+has 'xrange' elements*/
 template <class T>
 void IOput<T>::save_x(T *x,
 					  int xrange,
@@ -97,7 +97,7 @@ void IOput<T>::save_x(T *x,
 	outf.close();
 }
 
-//Store a simple data of the type (x,y)
+/*Store a simple data of the type (x,y)*/
 template <class T>
 void IOput<T>::save_xy(T x, T y,
 					  string fname,
@@ -117,9 +117,9 @@ void IOput<T>::save_xy(T x, T y,
 	}
 	outf.close();
 }
-//Store two simple arrays of data of the
-//type (x,y). Both arrays has to have the 
-//same number of elements ('xrange')
+/*Store two simple arrays of data of the
+type (x,y). Both arrays has to have the 
+same number of elements ('xrange')*/
 template <class T>
 void IOput<T>::save_xy(T *x, T *y,
 					  int xrange,
@@ -145,8 +145,7 @@ void IOput<T>::save_xy(T *x, T *y,
 	}
 	outf.close();
 }
-
-//Store a simple data of the type (x,y,z)
+/*Store a simple data of the type (x,y,z)*/
 template <class T>
 void IOput<T>::save_xyz(T x, T y, T z,
 					  string fname,
@@ -166,9 +165,9 @@ void IOput<T>::save_xyz(T x, T y, T z,
 	}
 	outf.close();
 }
-//Store two simple arrays of data of the
-//type (x,y,z). Both arrays has to have the 
-//same number of elements ('xrange')
+/*Store two simple arrays of data of the
+type (x,y,z). Both arrays has to have the 
+same number of elements ('xrange')*/
 template <class T>
 void IOput<T>::save_xyz(T *x, T *y, T *z,
 					  int xrange,
@@ -194,6 +193,123 @@ void IOput<T>::save_xyz(T *x, T *y, T *z,
 				  << fname << "." << std::endl;
 	}
 	outf.close();
+}
+
+/*Store a matrix of data of the
+type Amn, with m = nrow (number of rows)
+and n = ncol (number of columns).
+A must be a pointer to pointer type, dunamically
+allocated*/
+template <class T>
+void IOput<T>::save_matrix(T **A,
+					int nrow,
+					int ncol,
+					string fname,
+					string delimiter,
+					int idx,
+					int nzeros,
+					bool append,
+					bool new_sub_folder){
+					
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+						
+	if (outf.good()) {
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				if (j < ncol - 1) {
+					outf << A[i][j] << delimiter;
+				} else {
+					outf << A[i][j] << std::endl;
+				}
+
+			}
+		}
+		
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();					
+}
+
+/*Store a sub-matrix data from
+a matrix of the type Amn, starting
+from element (row_ini,col_ini) up to
+element (row_fin - 1,col_fin - 1).
+A must be a pointer to pointer type, dunamically
+allocated.
+*/
+template <class T>
+void IOput<T>::save_matrix(T **A,
+					int row_ini,
+					int row_fin,
+					int col_ini,
+					int col_fin,
+					string fname,
+					string delimiter,
+					int idx,
+					int nzeros,
+					bool append,
+					bool new_sub_folder){
+					
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+						
+	if (outf.good()) {
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				if (j < col_fin - 1) {
+					outf << A[i][j] << delimiter;
+				} else {
+					outf << A[i][j] << std::endl;
+				}
+
+			}
+		}
+		
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();					
+}
+
+/*
+Store a matrix of data of the
+type Amn, with m = nrow (number of rows)
+and n = ncol (number of columns), mapped
+into a linear array with nrow*ncol
+elements.
+*/
+template <class T>
+void IOput<T>::save_matrix(T *A,
+					int nrow,
+					int ncol,
+					string fname,
+					string delimiter,
+					int idx,
+					int nzeros,
+					bool append,
+					bool new_sub_folder){
+					
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+						
+	if (outf.good()) {
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				if (j < ncol - 1) {
+					outf << A[i*ncol + j] << delimiter;
+				} else {
+					outf << A[i*ncol + j] << std::endl;
+				}
+
+			}
+		}
+		
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();					
 }
 
 template <class T>
