@@ -1,14 +1,45 @@
-IOput(C) software (C++ class) - Version 1.0 26/02/2014
+IOput(C) C++ library (class) - Version 1.0 26/02/2014
 
 The entire source code, i.e., all files
-that compose the IOput software, is released under
+that compose the IOput library, is released under
 the MIT License.
 
-Written by Vagner Bessa (vagner.fisica@gmail.com)
+First developer: Vagner Bessa (vagner.fisica@gmail.com)
 
 GENERAL USAGE NOTES
 ----------------------
-- This is a free software.
+- This is a free C++ library. So, feel free to add modifications.
+
+- The full original library can be found at 
+  https://github.com/vagner-fisica/ioput.git.
+ 
+- Originally, this library is contained into two files:
+	ioput.h   -> header: the class declaration.
+	ioput.cpp -> source: the class implementation.
+  The develper suggestion to use this library in any code is
+  to cut all text code from the source and paste it into the end
+  of the header file, and remember to EXCLUDE THE LINES WHICH HAS ALL
+  EXPLICITY IMPLEMENTATIONS FOR THE CLASS, I.E., THE LAST FOUR LINES
+  FROM THE SOURCE FILE. And then put
+  	#include "ioput.h"
+  at the header of your main .cpp code.
+  
+- IOput's class constructors:
+	
+	#1 IOput()
+		Default constructor.
+	#2 IOput(const char* fname) or IOput(string fname);
+		It creates a folder called 'fname' in the working directory.
+	
+	Every constructor set the default in/out put file extension to
+	'.dat', but it can be chenged by calling the method
+		change_ext(string new_ext)
+	Then, the new extension wil be set to 'new_ext'.
+
+- The main purpose of this library is to handle in a very especific way
+  (please check 'documentation.txt') input and output data. Basicaly, the
+  present library can be used to save numerical or text data into a file
+  with extension '.dat' (default extension) or even load then.
 ----------------------
 
 INSTALLATION
