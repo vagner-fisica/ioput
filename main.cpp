@@ -1,4 +1,5 @@
 #include "ioput.h"
+#include <new>
 
 using namespace std;
 
@@ -16,8 +17,42 @@ int main(){
 
 	IOput<double> a("TESTING");
 
-	double x = 0.03;
-	a.save_x(x,"test",-1,-1,false,true);
+
+
+	double A[6] = {0.1,0.2,0.3,0.4,0.5,0.6};
+//	
+//	a.save_matrix(A,3,2,"fileMatrix");
+
+//	double **A;
+//	int N = 3;
+//	
+//	A = new double*[N];
+//	for (unsigned int i = 0; i < N; i += 1)
+//	{
+//		A[i] = new double[N];
+//		for (unsigned int j = 0; j < N; j += 1)
+//		{
+//			A[i][j] = i*N + j + 1;
+//		}
+//	}
+//	
+//	a.save_matrix(A,1,N,1,N,"fileMatrix");
+
+
+//	double **A;
+//	int N = 3;
+//	
+//	A = new double*[N];
+//	for (unsigned int i = 0; i < N; i += 1)
+//	{
+//		A[i] = new double[N];
+//		for (unsigned int j = 0; j < N; j += 1)
+//		{
+//			A[i][j] = i*N + j + 1;
+//		}
+//	}
+//	
+//	a.save_matrix(A,N,N,"fileMatrix");
 
 
 //	double x[5] = {0.1,0.2,0.3,0.4,0.5};
