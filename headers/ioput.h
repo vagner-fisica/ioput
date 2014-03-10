@@ -22,10 +22,10 @@
 *
 *	- Info: This class is guaranteed by the developer to
 *			work if, and only if compiled together with
-*			source file (ioclass.cpp) existing in the 'source'
+*			source file (ioclass.cpp) existed in the root
 *			directory of the IOclass source code, which 
 *			can be found at https://github.com/vagner-fisica/ioclass.git
-*			Please check README to see more details
+*			Please check README to see more details.
 *******************************
 */
 
@@ -95,21 +95,50 @@ class IOput{
 					int nzeros = -1,
 					bool append = false,
 					bool new_sub_folder = false);
+
+		void save_xyz(type, type, type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_xyz(type *, type *, type*,
+					int,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_matrix(type **,
+					int,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
 							
 		void format_out_data(string, int);
 		
 		string lzeros(int, int);
 		
+	private:	
 //------------------
 //Private members:
-	private:
 		string *cwd_;
 		ofstream outf;
+		ifstream inf;
 		
 		string ext;
 
 //------------------
-//Private methods:		
-		void mkdir(string s);
+//Private methods:
+		void mkdir(string );
+		void mk_subdir(string& );
+		void def_par_handler(string&, int, int, bool, bool);
 };
 #endif
