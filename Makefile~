@@ -27,8 +27,7 @@ main.o: $(MAIN) $(INCLUDE)$(INC)
 $(EXEC): $(OBJS)
 	@echo $(OBJS)
 	$(CXX) -o $@ $(addprefix $(LIB),$^)
-
-.PHONY: clean clean_all
+	
 clean:
 	@echo "Object files removed!"
 	@rm -f $(LIB)*.o

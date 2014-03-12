@@ -313,6 +313,41 @@ void IOput<T>::save_matrix(T *A,
 }
 
 template <class T>
+void IOput<T>::save_matrix(T *A,
+					int row_ini,
+					int row_fin,
+					int col_ini,
+					int col_fin,
+					int ncol,
+					string fname,
+					string delimiter,
+					int idx,
+					int nzeros,
+					bool append,
+					bool new_sub_folder){
+					
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+						
+	if (outf.good()) {
+		for (unsigned int i = row_ini; i <= row_fin; i++){
+			for (unsigned int j = col_ini; j <= col_fin; j++){
+				if (j < col_fin) {
+					outf << A[i*ncol + j] << delimiter;
+				} else {
+					outf << A[i*ncol + j] << std::endl;
+				}
+
+			}
+		}
+		
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();					
+}
+
+template <class T>
 void IOput<T>::format_out_data(string floatfield, int precision = 0){
 	if (precision > 0) {
 		outf.precision(precision);
