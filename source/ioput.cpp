@@ -311,12 +311,14 @@ void IOput<T>::save_matrix(T *A,
 	}
 	outf.close();					
 }
-/*Store a sub-matrix data from
+/*
+Store a sub-matrix data from
 a matrix of the type Amn, starting
 from element (row_ini,col_ini) up to
 element (row_fin - 1,col_fin - 1).
 Recall that the number of columns (ncol)
-must be supplied.
+must be supplied and Amn is mapped
+into a linear array with ncol colummns
 */
 template <class T>
 void IOput<T>::save_matrix(T *A,
@@ -353,6 +355,262 @@ void IOput<T>::save_matrix(T *A,
 	outf.close();					
 }
 
+/*
+Store a vector data in format:
+x1 y1 Vx1 Vy1
+x2 y2 Vx2 Vy1
+...
+Where x is a array containing
+the position in x, y directions
+with dimension of at least
+of max(nrow,ncol)
+and Vi is the vetor's component
+in that direction.
+It will only be stored
+vector which magnitude is higer
+than maximum maginitude times
+lower_bound.
+Vx and Vy must be a pointer to
+pointer type, dunamically allocated
+having nrow rows and ncol colummns.
+*/
+template <class T>
+void IOput<T>::save_vector(T *x,
+			T **Vx, T **Vy,
+			int nrow, int ncol,
+			T lower_bound,
+			string fname,
+			string delimiter,
+			int idx,
+			int nzeros,
+			bool append,
+			bool new_sub_folder){
+
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+	
+	T cut_off = 0, mag;
+
+	if (outf.good()) {
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				cut_off = max ((double)cut_off,
+							   (double)sqrt(Vx[i][j]*Vx[i][j]\
+							   	  		  + Vy[i][j]*Vy[i][j]));
+			}
+		}
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				mag = sqrt(Vx[i][j]*Vx[i][j] + Vy[i][j]*Vy[i][j]);
+				if (mag >= cut_off*lower_bound) {
+					outf << x[j] << delimiter << x[i] << delimiter\
+						 << Vx[i][j] << delimiter << Vy[i][j] << std::endl;
+				}
+			}
+		}
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();				
+		
+}
+
+/*
+Store a vector data in format:
+x1 y1 Vx1 Vy1
+x2 y2 Vx2 Vy1
+...
+starting from element
+(row_ini,col_ini) up to
+element (row_fin - 1,col_fin - 1).
+Where x is a array containing
+the position in x, y directions
+with dimension of at least
+of max(row_fin, col_fin)
+and Vi is the vetor's component
+in that direction.
+It will only be stored
+vector which magnitude is higer
+than maximum maginitude times
+lower_bound.
+Vx and Vy must be a pointer to
+pointer type, dunamically allocated
+having nrow rows and ncol colummns.
+*/
+template <class T>
+void IOput<T>::save_vector(T *x,
+			T **Vx, T **Vy,
+			int row_ini, int row_fin,
+			int col_ini, int col_fin,
+			T lower_bound,
+			string fname,
+			string delimiter,
+			int idx,
+			int nzeros,
+			bool append,
+			bool new_sub_folder){
+
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+	
+	T cut_off = 0, mag;
+
+	if (outf.good()) {
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				cut_off = max ((double)cut_off,
+							   (double)sqrt(Vx[i][j]*Vx[i][j]\
+							   	  		  + Vy[i][j]*Vy[i][j]));
+			}
+		}
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				mag = sqrt(Vx[i][j]*Vx[i][j] + Vy[i][j]*Vy[i][j]);
+				if (mag >= cut_off*lower_bound) {
+					outf << x[j] << delimiter << x[i] << delimiter\
+						 << Vx[i][j] << delimiter << Vy[i][j] << std::endl;
+				}
+			}
+		}
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();				
+		
+}
+
+/*
+Store a vector data in format:
+x1 y1 Vx1 Vy1
+x2 y2 Vx2 Vy1
+...
+starting from element
+(row_ini,col_ini) up to
+element (row_fin - 1,col_fin - 1).
+Where x is a array containing
+the position in x, y directions
+with dimension of ncol
+and Vi is the vetor's component
+in that direction.
+It will only be stored
+vector which magnitude is higer
+than maximum maginitude times
+lower_bound.
+Vx and Vy must be mapped into
+linear arrays with ncols.
+*/
+template <class T>
+void IOput<T>::save_vector(T *x,
+			T *Vx, T *Vy,
+			int nrow, int ncol,
+			T lower_bound,
+			string fname,
+			string delimiter,
+			int idx,
+			int nzeros,
+			bool append,
+			bool new_sub_folder){
+			
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+
+	T cut_off = 0, mag;
+
+	if (outf.good()) {
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				cut_off = max ((double)cut_off,
+							   (double)sqrt(Vx[i*ncol + j]*Vx[i*ncol + j]\
+							   	 		  + Vy[i*ncol + j]*Vy[i*ncol + j]));
+			}
+		}
+		for (unsigned int i = 0; i < nrow; i++){
+			for (unsigned int j = 0; j < ncol; j++){
+				mag = sqrt(Vx[i*ncol + j]*Vx[i*ncol + j]\
+						 + Vy[i*ncol + j]*Vy[i*ncol + j]);
+				if (mag >= cut_off*lower_bound) {
+					outf << x[j] << delimiter << x[i] << delimiter\
+						 << Vx[i*ncol + j] << delimiter << Vy[i*ncol + j]\
+						 << std::endl;
+				}
+			}
+		}
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();
+			
+}
+
+/*
+Store a vector data in format:
+x1 y1 Vx1 Vy1
+x2 y2 Vx2 Vy1
+...
+starting from element
+(row_ini,col_ini) up to
+element (row_fin - 1,col_fin - 1).
+Where x is a array containing
+the position in x, y directions
+with dimension of ncol
+and Vi is the vetor's component
+in that direction.
+It will only be stored
+vector which magnitude is higer
+than maximum maginitude times
+lower_bound.
+Vx and Vy must be mapped into
+linear arrays with ncols.
+*/
+template <class T>
+void IOput<T>::save_vector(T *x,
+			T *Vx, T *Vy,
+			int row_ini, int row_fin,
+			int col_ini, int col_fin,
+			int ncol,
+			T lower_bound,
+			string fname,
+			string delimiter,
+			int idx,
+			int nzeros,
+			bool append,
+			bool new_sub_folder){
+			
+	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
+
+	T cut_off = 0, mag;
+
+	if (outf.good()) {
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				cut_off = max ((double)cut_off,
+							   (double)sqrt(Vx[i*ncol + j]*Vx[i*ncol + j]\
+							   	 		  + Vy[i*ncol + j]*Vy[i*ncol + j]));
+			}
+		}
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				mag = sqrt(Vx[i*ncol + j]*Vx[i*ncol + j]\
+						 + Vy[i*ncol + j]*Vy[i*ncol + j]);
+				if (mag >= cut_off*lower_bound) {
+					outf << x[j] << delimiter << x[i] << delimiter\
+						 << Vx[i*ncol + j] << delimiter << Vy[i*ncol + j]\
+						 << std::endl;
+				}
+			}
+		}
+	} else {
+		std::cout << "ERROR: could not write into file "\
+				  << fname << "." << std::endl;
+	}
+	outf.close();
+			
+}
+/*
+Set the output format to be
+either scientific or fixed, and
+the precision.
+*/
 template <class T>
 void IOput<T>::format_out_data(string floatfield, int precision = 0){
 	if (precision > 0) {
@@ -369,7 +627,10 @@ void IOput<T>::format_out_data(string floatfield, int precision = 0){
 	}
 	
 }
-
+/*
+Return a integer n in string
+type with nzeros leading zeros.
+*/
 template <class T>
 string IOput<T>::lzeros(int nzeros, int n){
 	string_s aux;
@@ -379,8 +640,10 @@ string IOput<T>::lzeros(int nzeros, int n){
 	return str; 
 }
 
-//Creates a new folder at the root
-//directory
+/*
+Creates a new folder at the root
+directory
+*/
 template <class T>
 void IOput<T>::mkdir(string s){
 	string_s aux;
@@ -388,8 +651,10 @@ void IOput<T>::mkdir(string s){
 	system(aux.str().c_str());	
 }
 
-//Creates a new sub-folder in the
-//cwd directory
+/*
+Creates a new sub-folder in the
+cwd directory
+*/
 template <class T>
 void IOput<T>::mk_subdir(string &fname){
 	string new_folder = *cwd_ + "/" + fname + "/";
@@ -398,8 +663,10 @@ void IOput<T>::mk_subdir(string &fname){
 }
 
 
-//Handles default parameters of
-//save_ functions.
+/*
+Handles default parameters of
+save_ functions.
+*/
 template <class T>
 void IOput<T>::def_par_handler(string &fname,
 							   int idx,
@@ -434,5 +701,3 @@ void IOput<T>::def_par_handler(string &fname,
 template class IOput<int>;
 template class IOput<float>;
 template class IOput<double>;
-template class IOput<string>;
-template class IOput<char>;

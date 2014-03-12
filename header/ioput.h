@@ -35,6 +35,8 @@
 #include <cstdio>
 #include <sstream>
 #include <fstream>
+#include <cmath>
+#include <algorithm>
 
 #include <string>
 
@@ -43,6 +45,8 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
+using std::max;
+using std::sqrt;
 #define string_s std::stringstream
 
 template <class type>
@@ -151,6 +155,52 @@ class IOput{
 					bool append = false,
 					bool new_sub_folder = false);
 								
+		void save_vector(type *,
+					type **, type **,
+					int, int,
+					type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_vector(type *,
+					type **, type **,
+					int, int,
+					int, int,
+					type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+					
+		void save_vector(type *,
+					type *, type *,
+					int, int,
+					type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
+
+		void save_vector(type *,
+					type *, type *,
+					int, int,
+					int, int,
+					int,
+					type,
+					string,
+					string delimiter = "\t",
+					int idx = -1,
+					int nzeros = -1,
+					bool append = false,
+					bool new_sub_folder = false);
 												
 		void format_out_data(string, int);
 		
