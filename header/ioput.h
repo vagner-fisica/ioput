@@ -24,7 +24,8 @@
 *			work if, and only if compiled together with
 *			source file (ioclass.cpp) existed in the root
 *			directory of the IOclass source code, which 
-*			can be found at https://github.com/vagner-fisica/ioput.git
+*			can be found at:
+*			https://github.com/vagner-fisica/ioput.git
 *			Please check README to see more details.
 *******************************
 */
@@ -43,8 +44,6 @@ using std::string;
 using std::ifstream;
 using std::ofstream;
 #define string_s std::stringstream
-//#define string  std::string
-//#define ifstream std::ifstream
 
 template <class type>
 class IOput{

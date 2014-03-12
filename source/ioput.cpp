@@ -311,7 +311,13 @@ void IOput<T>::save_matrix(T *A,
 	}
 	outf.close();					
 }
-
+/*Store a sub-matrix data from
+a matrix of the type Amn, starting
+from element (row_ini,col_ini) up to
+element (row_fin - 1,col_fin - 1).
+Recall that the number of columns (ncol)
+must be supplied.
+*/
 template <class T>
 void IOput<T>::save_matrix(T *A,
 					int row_ini,
@@ -329,9 +335,9 @@ void IOput<T>::save_matrix(T *A,
 	def_par_handler(fname,idx,nzeros,append,new_sub_folder);
 						
 	if (outf.good()) {
-		for (unsigned int i = row_ini; i <= row_fin; i++){
-			for (unsigned int j = col_ini; j <= col_fin; j++){
-				if (j < col_fin) {
+		for (unsigned int i = row_ini; i < row_fin; i++){
+			for (unsigned int j = col_ini; j < col_fin; j++){
+				if (j < col_fin - 1) {
 					outf << A[i*ncol + j] << delimiter;
 				} else {
 					outf << A[i*ncol + j] << std::endl;
@@ -390,6 +396,7 @@ void IOput<T>::mk_subdir(string &fname){
 	mkdir(new_folder);
 	fname = new_folder + fname;
 }
+
 
 //Handles default parameters of
 //save_ functions.
