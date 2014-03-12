@@ -41,4 +41,6 @@ rebuild:
 	@echo "Rebuilding project."
 	make clean
 	make build
+run:
+	@./out
 	
